@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import {UserController} from './controller/UserController';
 import { AuthController } from './controller/AuthController';
+import { AuthMiddleware } from './middlewares/auth';
 
 
 const userController = new UserController();
@@ -17,7 +18,7 @@ router.post("/create", async (req, res) => {
     }
 });
 
-router.get("/users", async (req, res) => {
+router.get("/users",AuthMiddleware, async (req, res) => {
     try {
         await userController.index(req, res);
     } catch (error) {
@@ -25,7 +26,7 @@ router.get("/users", async (req, res) => {
     }
 });
 
-router.post("/auth", async (req, res) => {
+router.post("/auth",  async (req, res) => {
     try{
         await authController.login(req, res);
 
