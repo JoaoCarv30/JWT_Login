@@ -1,11 +1,17 @@
 import {Router} from 'express';
-import type {Request, Response} from 'express';
+import {UserController} from './controller/UserController';
 
 
+const userController = new UserController();
 
 export const router = Router();
 
 
-router.get('/', (req : Request, res : Response) => {
-  res.json({message: 'Hello World'});
+router.post("/create", async (req, res) => {
+    try {
+        await userController.create(req, res);
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 });
+
